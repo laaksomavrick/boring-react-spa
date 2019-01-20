@@ -2,10 +2,20 @@
   "name": "notes-spa",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": "10.14.1"
+  },
   "dependencies": {
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-scripts": "2.1.3"
+  },
+  "devDependencies": {
+    "typescript": "^3.2.4",
+    "@types/jest": "^23.3.13",
+    "@types/node": "^10.12.18",
+    "@types/react": "^16.7.20",
+    "@types/react-dom": "^16.0.11"
   },
   "scripts": {
     "start": "react-scripts start",
