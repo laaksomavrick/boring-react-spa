@@ -1,25 +1,21 @@
-import Button from "@material-ui/core/Button";
 import React, { Component } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Home } from "../home";
+import { Login, Register } from "../user";
+
+// Navbar, Search
+// Folders, Notes, Note
 
 export class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <Button color="primary">Hello World</Button>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <Router>
+        <Switch>
+          <Route path="/register" component={Register} />
+          <Route path="/login" component={Login} />
+          <Route component={Home} />
+        </Switch>
+      </Router>
     );
   }
 }
