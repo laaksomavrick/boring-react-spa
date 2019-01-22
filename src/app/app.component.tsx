@@ -7,8 +7,12 @@ import { Login, Register } from "../user";
 // Folders, Notes, Note
 
 export class App extends Component {
+
+  // todo better way for 100vh; component; styled components?
+
   render() {
     return (
+      <div style={{height: "100vh"}}>
       <Router>
         <Switch>
           <Route path="/register" component={Register} />
@@ -16,6 +20,7 @@ export class App extends Component {
           <Route component={Home} />
         </Switch>
       </Router>
+      </div>
     );
   }
 }
