@@ -1,18 +1,19 @@
-import React, { Component } from "react";
+import React, { Component, StatelessComponent } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import styled from "styled-components";
 import { Home } from "../home";
 import { Login, Register } from "../user";
 
 // Navbar, Search
 // Folders, Notes, Note
 
-export class App extends Component {
+const AppContainer = styled.div`
+  height: 100vh;
+`;
 
-  // todo better way for 100vh; component; styled components?
-
-  render() {
-    return (
-      <div style={{height: "100vh"}}>
+export const App: StatelessComponent<{}> = () => {
+  return (
+    <AppContainer>
       <Router>
         <Switch>
           <Route path="/register" component={Register} />
@@ -20,7 +21,6 @@ export class App extends Component {
           <Route component={Home} />
         </Switch>
       </Router>
-      </div>
-    );
-  }
-}
+    </AppContainer>
+  );
+};

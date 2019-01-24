@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, FormEvent } from "react";
 import {
   Col,
   ControlLabel,
@@ -8,29 +8,34 @@ import {
   HelpBlock,
   Row,
 } from "react-bootstrap";
+import { RouteComponentProps } from "react-router";
 
-export class Register extends Component {
+interface RegisterState {
+  email: string;
+  password: string;
+  passwordConfirmation: string;
+}
 
-  constructor(props: any, context: any) {
-    super(props, context);
+export class Register extends Component<RouteComponentProps<{}>, RegisterState> {
+  public state: RegisterState = { email: "", password: "", passwordConfirmation: "" };
 
-    this.handleChange = this.handleChange.bind(this);
-
-    this.state = {
-      value: "",
-    };
+  constructor(props: any) {
+    super(props);
   }
   getValidationState() {
-    const length = (this.state as any).value.length;
+
+    const length = 10;
     if (length > 10) return "success";
     else if (length > 5) return "warning";
     else if (length > 0) return "error";
     return null;
   }
 
-  handleChange(e: any) {
-    this.setState({ value: e.target.value });
-  }
+  handleChange = ({
+    currentTarget: { value = "" },
+  }: FormEvent<FormControl & HTMLInputElement>): void => {
+    this.setState({ email: value });
+  };
 
   render() {
     return (
@@ -46,7 +51,7 @@ export class Register extends Component {
                 <ControlLabel>Working example with validation</ControlLabel>
                 <FormControl
                   type="text"
-                  value={(this.state as any).value}
+                  value={this.state.email}
                   placeholder="Enter text"
                   onChange={this.handleChange}
                 />

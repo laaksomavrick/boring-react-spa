@@ -19,7 +19,7 @@
     "array-type": [false],
     "no-empty-interface": true,
     "no-empty": false,
-    "no-any": true,
+    "no-any": false,
     "arrow-parens": false,
     "object-literal-sort-keys": false,
     "no-unused-expression": true,
@@ -27,13 +27,14 @@
     "variable-name": [false],
     "one-line": [false],
     "one-variable-per-declaration": [false],
-    "semicolon": true,
+    "semicolon": [true, "always"],
     "indent": [true, "spaces", 2],
     "import-name": false,
     "trailing-comma": true,
     "no-console": false,
     "no-shadowed-variable": false,
-    "typedef": [true, "arrow-call-signature", "arrow-parameter"]
+    "typedef": [true, "arrow-call-signature", "arrow-parameter"],
+    "no-unnecessary-semicolons": false
   },
   "rulesDirectory": []
 }
