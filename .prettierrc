@@ -3,5 +3,5 @@
   "trailingComma": "all",
   "tabWidth": 2,
   "printWidth": 90,
-  "semicolons": false
+  "semi": true
 }

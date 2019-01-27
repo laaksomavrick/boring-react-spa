@@ -11,7 +11,7 @@ const AppContainer = styled.div`
   height: 100vh;
 `;
 
-export const App: StatelessComponent<{}> = () => {
+export const App: StatelessComponent<{}> = (): any => {
   return (
     <AppContainer>
       <Router>
