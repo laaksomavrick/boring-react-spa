@@ -1,3 +1,10 @@
 import { combineReducers } from "redux";
+import { userReducer, UserState } from "../user/user.reducer";
 
-export const appReducer = combineReducers({});
+// todo type <T>
+
+export interface ApplicationState {
+  userState: UserState;
+}
+
+export const appReducer = combineReducers<ApplicationState>({ userState: userReducer });

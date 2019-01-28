@@ -8,17 +8,24 @@ import {
   Grid,
   Row,
 } from "react-bootstrap";
+import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
-import { post } from "../http";
+import { Dispatch } from "redux";
+import { ApplicationState } from "../app/app.reducer";
+import { createUser } from "./user.actions";
 
-interface Props extends RouteComponentProps<{}> {}
+interface Props extends RouteComponentProps<{}> {
+  createUser: (user: object) => void;
+  error: any;
+}
+
 interface State {
   email: string;
   password: string;
   passwordConfirmation: string;
 }
 
-export class Register extends Component<Props, State> {
+class Register extends Component<Props, State> {
   public state = { email: "", password: "", passwordConfirmation: "" };
 
   public constructor(props: Props) {
@@ -28,6 +35,7 @@ export class Register extends Component<Props, State> {
   // todo screen vs component
 
   public render() {
+    const { error } = this.props;
     return (
       <Grid>
         <Row>
@@ -69,6 +77,7 @@ export class Register extends Component<Props, State> {
               <Button bsStyle="primary" type="submit">
                 Submit
               </Button>
+              {error ? <h1>{error}</h1> : null}
             </form>
           </Col>
         </Row>
@@ -85,15 +94,32 @@ export class Register extends Component<Props, State> {
   };
 
   private handleSubmit = async (event: FormEvent): Promise<void> => {
+    const { createUser } = this.props;
     event.preventDefault();
     // todo: handle password / password confirmation valid
-    console.log(this.state);
-    // todo redux
     const user = {
       email: this.state.email,
       password: this.state.password,
     };
-    const result = await post("users", { user });
-    console.log(result);
+    await createUser(user);
   };
 }
+
+const mapStateToProps = (state: ApplicationState): any => {
+  return {
+    error: state.userState.error,
+  };
+};
+
+const mapDispatchToProps = (dispatch: Dispatch<any>): object => {
+  return {
+    createUser: (user: object): void => {
+      dispatch(createUser(user));
+    },
+  };
+};
+
+export const ConnectedRegister = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Register);
