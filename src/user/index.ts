@@ -1,2 +1,3 @@
-export * from "./login.component";
-export * from "./register.component";
+export * from "./screens/login.screen";
+export * from "./screens/register.screen";
+export * from "./redux/user.reducer";

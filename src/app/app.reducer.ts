@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import { userReducer, UserState } from "../user/user.reducer";
+import { userReducer, UserState } from "../user";
 
 // todo type <T>
 

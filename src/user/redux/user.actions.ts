@@ -1,5 +1,5 @@
 import { Dispatch } from "redux";
-import { post } from "../http";
+import { post } from "../../http";
 
 export enum UserActionKeys {
   CREATE_USER_SUCCESS = "createUserSuccess",
@@ -29,12 +29,11 @@ export const createUser = (newUser: object): DispatchFunction => {
     try {
       const {
         data: {
-          data: { user },
+          resource: { user },
         },
       } = await post("users", { user: newUser });
       dispatch(createUserSuccess(user));
     } catch (e) {
-      // todo handle this better in backend?
       const {
         response: {
           data: { error },
