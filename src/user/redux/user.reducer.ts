@@ -1,3 +1,4 @@
+import { getAuthToken } from "../user.utils";
 import { UserActionKeys, UserActions } from "./user.actions";
 
 export interface UserState {
@@ -9,7 +10,7 @@ export interface UserState {
 export const userReducer = (
   state: UserState = {
     user: null,
-    auth: null, // todo derive from localStorage
+    auth: getAuthToken(),
     error: null,
   },
   action: UserActions,

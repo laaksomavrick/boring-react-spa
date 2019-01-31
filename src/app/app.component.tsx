@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 import { Home } from "../home";
 import { ConnectedPrivateRoute } from "../route";
-import { ConnectedRegister, Login } from "../user";
+import { ConnectedLogin, ConnectedRegister } from "../user";
 
 // Navbar, Search
 // Folders, Notes, Note
@@ -18,7 +18,7 @@ export const App: StatelessComponent<{}> = (): any => {
       <Router>
         <Switch>
           <Route path="/register" component={ConnectedRegister} />
-          <Route path="/login" component={Login} />
+          <Route path="/login" component={ConnectedLogin} />
           <ConnectedPrivateRoute component={Home} />
         </Switch>
       </Router>

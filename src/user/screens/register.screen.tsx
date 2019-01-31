@@ -10,7 +10,7 @@ import { createUser } from "../redux/user.actions";
 import { UserInput } from "../user.types";
 
 interface Props extends RouteComponentProps<{}> {
-  createUser: (user: object) => void;
+  createUser: (user: object) => Promise<void>;
   error: any;
 }
 

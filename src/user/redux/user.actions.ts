@@ -1,6 +1,7 @@
 import { Dispatch } from "redux";
 import { post } from "../../http";
 import { UserInput } from "../user.types";
+import { setAuthToken } from "../user.utils";
 
 export enum UserActionKeys {
   CREATE_USER_SUCCESS = "createUserSuccess",
@@ -10,7 +11,7 @@ export enum UserActionKeys {
 }
 
 // todo: generic / universal error handling via status code?
-// can put in redux folder with DispatchFunction, or http util to parse out
+// can put in redux folder with ThunkHandler, or http util to parse out
 
 export interface CreateUserSuccessAction {
   readonly type: UserActionKeys.CREATE_USER_SUCCESS;
@@ -46,9 +47,9 @@ export type UserActions =
   | CreateAuthSuccessAction
   | CreateAuthErrorAction;
 
-type DispatchFunction = (dispatch: Dispatch<any>) => Promise<void>;
+type ThunkHandler = (dispatch: Dispatch<any>) => Promise<void>;
 
-export const createUser = (newUser: UserInput): DispatchFunction => {
+export const createUser = (newUser: UserInput): ThunkHandler => {
   return async (dispatch: Dispatch<any>): Promise<void> => {
     try {
       const {
@@ -70,7 +71,7 @@ export const createUser = (newUser: UserInput): DispatchFunction => {
   };
 };
 
-export const authorizeUser = (user: UserInput): DispatchFunction => {
+export const authorizeUser = (user: UserInput): ThunkHandler => {
   return async (dispatch: Dispatch<any>): Promise<void> => {
     try {
       const {
@@ -78,8 +79,8 @@ export const authorizeUser = (user: UserInput): DispatchFunction => {
           resource: { token = null },
         },
       } = await post("auth", { auth: user });
+      setAuthToken(token);
       dispatch(createAuthSuccess(token));
-      // todo store in localStorage
     } catch (e) {
       const {
         response: {
