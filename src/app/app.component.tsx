@@ -1,7 +1,7 @@
 import React, { StatelessComponent } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
-import { Home } from "../home";
+import { ConnectedHome } from "../home";
 import { ConnectedPrivateRoute } from "../route";
 import { ConnectedLogin, ConnectedRegister } from "../user";
 
@@ -19,7 +19,7 @@ export const App: StatelessComponent<{}> = (): any => {
         <Switch>
           <Route path="/register" component={ConnectedRegister} />
           <Route path="/login" component={ConnectedLogin} />
-          <ConnectedPrivateRoute component={Home} />
+          <ConnectedPrivateRoute component={ConnectedHome} />
         </Switch>
       </Router>
     </AppContainer>
