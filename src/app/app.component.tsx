@@ -9,7 +9,8 @@ import { ConnectedLogin, ConnectedRegister } from "../user";
 // Folders, Notes, Note
 
 const AppContainer = styled.div`
-  height: 100vh;
+  min-height: 100vh;
+  overflow: auto;
 `;
 
 export const App: StatelessComponent<{}> = (): any => {
