@@ -10,7 +10,7 @@ import { createUser } from "../redux/user.actions";
 import { UserInput } from "../user.types";
 
 interface Props extends RouteComponentProps<{}> {
-  createUser: (user: object) => Promise<void>;
+  createUser: (user: UserInput) => Promise<void>;
   error: any;
 }
 
@@ -45,8 +45,6 @@ class Register extends Component<Props, State> {
   private onChange = async ({
     currentTarget: { value = "", name = "" },
   }: FormEvent<FormControl & HTMLInputElement>): Promise<void> => {
-    // todo, spread here to get around typechecker err [name] not part of RegisterState
-    // how to handle?
     await this.setState({ ...this.state, [name]: value });
   };
 
@@ -63,13 +61,13 @@ class Register extends Component<Props, State> {
   };
 }
 
-const mapStateToProps = (state: ApplicationState): any => {
+const mapStateToProps = (state: ApplicationState): Pick<Props, "error"> => {
   return {
     error: state.userState.error,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): object => {
+const mapDispatchToProps = (dispatch: Dispatch<any>): Pick<Props, "createUser"> => {
   return {
     createUser: async (user: UserInput): Promise<void> => {
       await dispatch(createUser(user));

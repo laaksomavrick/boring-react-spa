@@ -1,10 +1,11 @@
-import { getAuthToken, getUser } from "../user.utils";
+import { ApiError } from "../../http";
+import { getAuthToken } from "../user.utils";
 import { User, UserActionKeys, UserActions } from "./user.actions";
 
 export interface UserState {
   user: User | null;
   auth: string | null;
-  error: any;
+  error: ApiError | null;
 }
 
 export const userReducer = (

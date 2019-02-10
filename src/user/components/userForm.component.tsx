@@ -1,5 +1,7 @@
 import React, { FormEvent, SFC } from "react";
 import { Button, ControlLabel, FormControl, FormGroup } from "react-bootstrap";
+import { FormError } from "../../form";
+import { ApiError } from "../../http";
 
 // todo how to test this?
 // validate renderConfirmPassword
@@ -14,7 +16,7 @@ interface Props {
     password: string;
     passwordConfirmation?: string | null;
   };
-  error?: any;
+  error: ApiError | null;
 }
 
 // todo: extract FormGroup dupes into form input component /form
@@ -54,7 +56,7 @@ export const UserForm: SFC<Props> = (props: Props): any => {
       <Button bsStyle="primary" type="submit">
         Submit
       </Button>
-      {error ? <h1>{error}</h1> : null}
+      <FormError error={error} />
     </form>
   );
 };

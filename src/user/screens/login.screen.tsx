@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { ApplicationState } from "../../app/app.reducer";
+import { ApiError } from "../../http";
 import { UserContainer } from "../components/container.component";
 import { UserForm } from "../components/userForm.component";
 import { authorizeUser } from "../redux/user.actions";
@@ -11,7 +12,7 @@ import { UserInput } from "../user.types";
 
 interface Props extends RouteComponentProps<{}> {
   authorizeUser: (user: UserInput) => Promise<void>;
-  error: any;
+  error: ApiError | null;
 }
 
 interface State {
@@ -44,8 +45,6 @@ class Login extends Component<Props, State> {
   private onChange = async ({
     currentTarget: { value = "", name = "" },
   }: FormEvent<FormControl & HTMLInputElement>): Promise<void> => {
-    // todo, spread here to get around typechecker err [name] not part of RegisterState
-    // how to handle?
     await this.setState({ ...this.state, [name]: value });
   };
 
@@ -61,13 +60,13 @@ class Login extends Component<Props, State> {
   };
 }
 
-const mapStateToProps = (state: ApplicationState): any => {
+const mapStateToProps = (state: ApplicationState): Pick<Props, "error"> => {
   return {
     error: state.userState.error,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): object => {
+const mapDispatchToProps = (dispatch: Dispatch<any>): Pick<Props, "authorizeUser"> => {
   return {
     authorizeUser: async (user: UserInput): Promise<void> => {
       await dispatch(authorizeUser(user));

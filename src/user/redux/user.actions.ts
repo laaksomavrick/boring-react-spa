@@ -1,6 +1,6 @@
 import { Dispatch } from "redux";
 import { ThunkHandler } from "../../app";
-import { get, post } from "../../http";
+import { ApiError, get, post } from "../../http";
 import { UserInput } from "../user.types";
 import { setAuthToken } from "../user.utils";
 
@@ -31,7 +31,7 @@ export interface CreateUserSuccessAction {
 export interface CreateUserErrorAction {
   readonly type: UserActionKeys.CREATE_USER_ERROR;
   readonly payload: {
-    readonly error: any;
+    readonly error: ApiError;
   };
 }
 
@@ -45,7 +45,7 @@ export interface CreateAuthSuccessAction {
 export interface CreateAuthErrorAction {
   readonly type: UserActionKeys.CREATE_AUTH_ERROR;
   readonly payload: {
-    readonly error: any;
+    readonly error: ApiError;
   };
 }
 
@@ -59,7 +59,7 @@ export interface GetUserSuccessAction {
 export interface GetUserErrorAction {
   readonly type: UserActionKeys.GET_USER_ERROR;
   readonly payload: {
-    readonly error: any;
+    readonly error: ApiError;
   };
 }
 
@@ -104,6 +104,7 @@ export const authorizeUser = (user: UserInput): ThunkHandler => {
       setAuthToken(token);
       dispatch(createAuthSuccess(token));
     } catch (e) {
+      console.log(e.response);
       const {
         response: {
           data: { error },
@@ -141,7 +142,7 @@ const createUserSuccess = (user: User): CreateUserSuccessAction => {
   };
 };
 
-const createUserError = (error: any): CreateUserErrorAction => {
+const createUserError = (error: ApiError): CreateUserErrorAction => {
   return {
     type: UserActionKeys.CREATE_USER_ERROR,
     payload: { error },
@@ -155,7 +156,7 @@ const createAuthSuccess = (auth: string): CreateAuthSuccessAction => {
   };
 };
 
-const createAuthError = (error: any): CreateAuthErrorAction => {
+const createAuthError = (error: ApiError): CreateAuthErrorAction => {
   return {
     type: UserActionKeys.CREATE_AUTH_ERROR,
     payload: { error },
@@ -169,7 +170,7 @@ const getUserSuccess = (user: User): GetUserSuccessAction => {
   };
 };
 
-const getUserError = (error: any): GetUserErrorAction => {
+const getUserError = (error: ApiError): GetUserErrorAction => {
   return {
     type: UserActionKeys.GET_USER_ERROR,
     payload: { error },
