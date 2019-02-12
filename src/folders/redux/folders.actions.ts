@@ -1,11 +1,13 @@
 import { Dispatch } from "react";
 import { ThunkHandler } from "../../app";
-import { get } from "../../http";
+import { ApiError, get } from "../../http";
+import { Note } from "../../notes";
 
 export interface Folder {
   id: number;
   userId: number;
   name: string;
+  notes: Note[];
   createdAt: string;
   updatedAt: string;
 }
@@ -13,6 +15,7 @@ export interface Folder {
 export enum FolderActionKeys {
   GET_FOLDERS_SUCCESS = "getFoldersSuccess",
   GET_FOLDERS_ERROR = "getFoldersError",
+  SET_SELECTED_FOLDER = "setSelectedFolder",
 }
 
 export interface GetFolderSuccessAction {
@@ -25,9 +28,11 @@ export interface GetFolderSuccessAction {
 export interface GetFolderErrorAction {
   readonly type: FolderActionKeys.GET_FOLDERS_ERROR;
   readonly payload: {
-    readonly error: any;
+    readonly error: ApiError;
   };
 }
+
+// todo err handling to ApiError
 
 export type FolderActions = GetFolderSuccessAction | GetFolderErrorAction;
 
@@ -58,7 +63,7 @@ const getFoldersSuccess = (folders: Folder[]): GetFolderSuccessAction => {
   };
 };
 
-const getFoldersError = (error: any): GetFolderErrorAction => {
+const getFoldersError = (error: ApiError): GetFolderErrorAction => {
   return {
     type: FolderActionKeys.GET_FOLDERS_ERROR,
     payload: { error },

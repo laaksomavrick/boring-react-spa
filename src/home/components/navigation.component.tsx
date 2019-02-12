@@ -4,11 +4,16 @@ import { connect } from "react-redux";
 import { Route, RouteComponentProps, withRouter } from "react-router";
 import { LinkContainer } from "react-router-bootstrap";
 import styled from "styled-components";
+import { ApplicationState } from "../../app/app.reducer";
 import { Folder } from "../../folders/redux/folders.actions";
+import { Note } from "../../notes";
 
-interface Props extends RouteComponentProps<{}> {
+interface StateFromProps {
   folders: Folder[];
+  notes: Note[];
 }
+
+interface Props extends RouteComponentProps<{}>, StateFromProps {}
 
 const StyledNavigationCol = styled(Col)`
   height: 100%;
@@ -18,26 +23,46 @@ const StyledNavigationCol = styled(Col)`
 class Navigation extends Component<Props, {}> {
   public constructor(props: Props) {
     super(props);
+    this.renderNoteList = this.renderNoteList.bind(this);
   }
 
   public render() {
     const { folders = [] } = this.props;
     return (
-      <>
-        <StyledNavigationCol xs={6}>{this.renderFolderList(folders)}</StyledNavigationCol>
+      <div>
         <StyledNavigationCol xs={6}>
-          <Route exact path="/folders/:folderId/notes" component={this.renderNoteList} />
+          <ListGroup>
+            {folders.map((folder: Folder) => (
+              <LinkContainer to={`/folders/${folder.id}/notes`} key={folder.id}>
+                <ListGroupItem>{folder.name}</ListGroupItem>
+              </LinkContainer>
+            ))}
+          </ListGroup>
         </StyledNavigationCol>
-      </>
+        <StyledNavigationCol xs={6}>
+          <Route path="/folders/:folderId/notes" component={this.renderNoteList} />
+        </StyledNavigationCol>
+      </div>
     );
   }
 
-  private renderFolderList(folders: Folder[] = []) {
+  private renderNoteList(props: RouteComponentProps) {
+    // todo this is gross
+    const { notes } = this.props;
+    const {
+      match: { params = {} },
+    } = props;
+    const selectedFolderId = (params as any).folderId ? (params as any).folderId : null;
+    if (!selectedFolderId) {
+      return null;
+    }
+    const folderNotes =
+      notes.filter((note: Note) => note.folderId == selectedFolderId) || [];
     return (
       <>
         <ListGroup>
-          {folders.map(({ name, id }: Folder) => (
-            <LinkContainer to={`/folders/${id}/notes`} key={id}>
+          {folderNotes.map(({ name, id }: Note) => (
+            <LinkContainer to={`/folders/${selectedFolderId}/notes/${id}`} key={id}>
               <ListGroupItem>{name}</ListGroupItem>
             </LinkContainer>
           ))}
@@ -45,16 +70,18 @@ class Navigation extends Component<Props, {}> {
       </>
     );
   }
-
-  private renderNoteList(props: RouteComponentProps) {
-    const { folderId = null } = props.match.params as any;
-    return <div>{folderId}</div>;
-  }
 }
+
+const mapStateToProps = (state: ApplicationState): StateFromProps => {
+  return {
+    folders: state.foldersState.folders,
+    notes: state.notesState.notes,
+  };
+};
 
 export const ConnectedNavigation = withRouter(
   connect(
-    null,
+    mapStateToProps,
     null,
   )(Navigation),
 );

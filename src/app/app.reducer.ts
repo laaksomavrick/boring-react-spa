@@ -1,13 +1,16 @@
 import { combineReducers } from "redux";
 import { foldersReducer, FoldersState } from "../folders/redux/folders.reducer";
+import { notesReducer, NotesState } from "../notes";
 import { userReducer, UserState } from "../user";
 
 export interface ApplicationState {
   userState: UserState;
   foldersState: FoldersState;
+  notesState: NotesState;
 }
 
 export const appReducer = combineReducers<ApplicationState>({
   userState: userReducer,
   foldersState: foldersReducer,
+  notesState: notesReducer,
 });

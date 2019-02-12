@@ -1,14 +1,15 @@
+import { ApiError } from "../../http";
 import { Folder, FolderActionKeys, FolderActions } from "./folders.actions";
 
 export interface FoldersState {
-  folders?: Folder[];
-  error: any;
+  folders: Folder[];
+  error?: ApiError;
 }
 
 export const foldersReducer = (
   state: FoldersState = {
     folders: [],
-    error: null,
+    error: undefined,
   },
   action: FolderActions,
 ): FoldersState => {
