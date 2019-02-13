@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { startUp, ThunkHandler } from "../../app";
 import { ApplicationState } from "../../app/app.reducer";
+import { StyledNoteRoute } from "../../notes";
 import { getMe, User } from "../../user/redux/user.actions";
 import { HomeContainer } from "../components/home.container";
 import { ConnectedNavigation } from "../components/navigation.component";
@@ -31,7 +32,8 @@ class Home extends Component<Props, {}> {
 
   public render() {
     const nav = <ConnectedNavigation />;
-    return <HomeContainer nav={nav} />;
+    const note = <StyledNoteRoute />;
+    return <HomeContainer nav={nav} main={note} />;
   }
 }
 

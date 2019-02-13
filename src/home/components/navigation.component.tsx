@@ -7,17 +7,26 @@ import styled from "styled-components";
 import { ApplicationState } from "../../app/app.reducer";
 import { Folder } from "../../folders/redux/folders.actions";
 import { Note } from "../../notes";
+import { RouteParams } from "../../route";
 
 interface StateFromProps {
   folders: Folder[];
   notes: Note[];
 }
 
-interface Props extends RouteComponentProps<{}>, StateFromProps {}
+interface Props extends RouteComponentProps<RouteParams>, StateFromProps {}
 
-const StyledNavigationCol = styled(Col)`
+const NavigationContainer = styled.div`
+  height: 100vh;
+  display: flex;
+`;
+
+const StyledNavigationCol = styled.div`
   height: 100%;
-  padding-right: 0px;
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: auto;
+  width: 50%;
 `;
 
 class Navigation extends Component<Props, {}> {
@@ -29,8 +38,8 @@ class Navigation extends Component<Props, {}> {
   public render() {
     const { folders = [] } = this.props;
     return (
-      <div>
-        <StyledNavigationCol xs={6}>
+      <NavigationContainer>
+        <StyledNavigationCol>
           <ListGroup>
             {folders.map((folder: Folder) => (
               <LinkContainer to={`/folders/${folder.id}/notes`} key={folder.id}>
@@ -39,25 +48,26 @@ class Navigation extends Component<Props, {}> {
             ))}
           </ListGroup>
         </StyledNavigationCol>
-        <StyledNavigationCol xs={6}>
+        <StyledNavigationCol>
           <Route path="/folders/:folderId/notes" component={this.renderNoteList} />
         </StyledNavigationCol>
-      </div>
+      </NavigationContainer>
     );
   }
 
-  private renderNoteList(props: RouteComponentProps) {
+  private renderNoteList(props: RouteComponentProps<RouteParams>) {
     // todo this is gross
     const { notes } = this.props;
     const {
       match: { params = {} },
     } = props;
-    const selectedFolderId = (params as any).folderId ? (params as any).folderId : null;
+    const selectedFolderId = params.folderId ? params.folderId : null;
     if (!selectedFolderId) {
       return null;
     }
     const folderNotes =
-      notes.filter((note: Note) => note.folderId == selectedFolderId) || [];
+      notes.filter((note: Note) => note.folderId === parseInt(selectedFolderId, 10)) ||
+      [];
     return (
       <>
         <ListGroup>
