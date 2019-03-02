@@ -1,0 +1,23 @@
+// import React, { SFC } from "react";
+// import { ListGroup, ListGroupItem } from "react-bootstrap";
+// import { LinkContainer } from "react-router-bootstrap";
+// import { Folder } from "../redux/folders.actions";
+
+// interface Props {
+//   folders: Folder[];
+//   onFolderClick: (folder: Folder) => void;
+// }
+
+// export const FolderList: SFC<Props> = ({ folders = [], onFolderClick }: Props) => (
+//   <ListGroup>
+//     {folders.map((folder: Folder) => (
+//       <LinkContainer
+//         to={`/folders/${folder.id}/notes`}
+//         key={folder.id}
+//         onClick={() => onFolderClick(folder)}
+//       >
+//         <ListGroupItem>{folder.name}</ListGroupItem>
+//       </LinkContainer>
+//     ))}
+//   </ListGroup>
+// );

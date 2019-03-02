@@ -1,0 +1,112 @@
+// import React, { Component } from "react";
+// import { ListGroup, ListGroupItem } from "react-bootstrap";
+// import { connect } from "react-redux";
+// import { Route, RouteComponentProps, withRouter } from "react-router";
+// import { LinkContainer } from "react-router-bootstrap";
+// import { Dispatch } from "redux";
+// import styled from "styled-components";
+// import { ApplicationState } from "../../app/app.reducer";
+// import { FolderList } from "../../folders";
+// import { Folder, setSelectedFolder } from "../../folders/redux/folders.actions";
+// import { Note } from "../../notes";
+// import { RouteParams } from "../../route";
+
+// interface StateFromProps {
+//   folders: Folder[];
+//   selectedFolder?: Folder;
+// }
+
+// interface DispatchFromProps {
+//   setSelectedFolder: (folder: Folder) => void;
+// }
+
+// interface Props
+//   extends RouteComponentProps<RouteParams>,
+//     StateFromProps,
+//     DispatchFromProps {}
+
+// const NavigationContainer = styled.div`
+//   height: 100vh;
+//   display: flex;
+// `;
+
+// const StyledNavigationCol = styled.div`
+//   height: 100%;
+//   flex-grow: 1;
+//   flex-shrink: 0;
+//   flex-basis: auto;
+//   width: 50%;
+// `;
+
+// class Navigation extends Component<Props, {}> {
+//   public constructor(props: Props) {
+//     super(props);
+//     this.renderNoteList = this.renderNoteList.bind(this);
+//   }
+
+//   public render() {
+//     const { folders = [], setSelectedFolder } = this.props;
+//     return (
+//       <NavigationContainer>
+//         <StyledNavigationCol>
+//           <FolderList folders={folders} onFolderClick={setSelectedFolder} />
+//         </StyledNavigationCol>
+//         <StyledNavigationCol>
+//           <Route path="/folders/:folderId/notes" component={this.renderNoteList} />
+//         </StyledNavigationCol>
+//       </NavigationContainer>
+//     );
+//   }
+
+//   private renderNoteList(props: RouteComponentProps<RouteParams>) {
+//     // todo clean up
+//     const {
+//       match: { params = {} },
+//     } = props;
+//     const selectedFolderId = params.folderId ? params.folderId : null;
+//     if (!selectedFolderId) {
+//       return null;
+//     }
+//     const { folders } = this.props;
+//     const folder = folders.find(
+//       (folder: Folder) => folder.id === parseInt(selectedFolderId, 10),
+//     );
+//     if (!folder) {
+//       return null;
+//     }
+//     const { notes } = folder;
+//     return (
+//       <>
+//         <ListGroup>
+//           {notes.map(({ name, id }: Note) => (
+//             <LinkContainer to={`/folders/${selectedFolderId}/notes/${id}`} key={id}>
+//               <ListGroupItem>{name}</ListGroupItem>
+//             </LinkContainer>
+//           ))}
+//         </ListGroup>
+//       </>
+//     );
+//   }
+// }
+
+// const mapStateToProps = (state: ApplicationState): StateFromProps => {
+//   return {
+//     folders: state.foldersState.folders,
+//     selectedFolder: state.foldersState.selectedFolder,
+//   };
+// };
+
+// const mapDispatchToProps = (dispatch: Dispatch) => {
+//   return {
+//     setSelectedFolder: (folder: Folder): void => {
+//       dispatch(setSelectedFolder(folder));
+//     },
+//   };
+// };
+
+// export const ConnectedNavigation = withRouter(
+//   connect(
+//     mapStateToProps,
+//     mapDispatchToProps,
+//   )(Navigation),
+// );

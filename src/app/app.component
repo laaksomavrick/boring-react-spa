@@ -1,0 +1,19 @@
+// import React, { StatelessComponent } from "react";
+// import styled from "styled-components";
+// import Routes from "../route/components/routes.component";
+
+// // Navbar, Search
+// // Folders, Notes, Note
+
+// const AppContainer = styled.div`
+//   min-height: 100vh;
+//   overflow: auto;
+// `;
+
+// export const App: StatelessComponent<{}> = (): any => {
+//   return (
+//     <AppContainer>
+//       <Routes />
+//     </AppContainer>
+//   );
+// };
