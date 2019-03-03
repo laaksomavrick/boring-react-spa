@@ -1,8 +1,9 @@
-import React, { Component, FormEvent, ChangeEvent } from "react";
+import React, { ChangeEvent, Component, FormEvent } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
-import UserForm from "../components/UserForm.component";
+import UserForm from "../components/UserForm";
+import UserScreen from "../components/UserScreen";
 import { ApplicationState } from "../store";
 import { createUser } from "../store/user/actions";
 import { UserInput } from "../store/user/types";
@@ -28,15 +29,15 @@ class Register extends Component<Props, State> {
   public render() {
     const { error } = this.props;
     return (
-      <div>
-        <h1>Registration</h1>
-        {/* <UserForm
+      <UserScreen>
+        <UserForm
           onChange={this.onChange}
           onSubmit={this.onSubmit}
           state={this.state}
+          header="Register"
           error={error}
-        /> */}
-      </div>
+        />
+      </UserScreen>
     );
   }
 
@@ -55,17 +56,20 @@ class Register extends Component<Props, State> {
       password: this.state.password,
     };
     await createUser(user);
-    history.push("/");
+    const { error } = this.props;
+    if (error == null) {
+      history.push("/");
+    }
   };
 }
 
-const mapStateToProps = (state: ApplicationState): Pick<Props, "error"> => {
+const mapStateToProps = (state: ApplicationState) => {
   return {
     error: state.user.error,
   };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<any>): Pick<Props, "createUser"> => {
+const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   return {
     createUser: async (user: UserInput): Promise<void> => {
       await dispatch(createUser(user));

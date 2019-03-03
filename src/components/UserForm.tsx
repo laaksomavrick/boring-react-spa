@@ -6,7 +6,7 @@ import InputLabel from "@material-ui/core/InputLabel";
 import withStyles, { StyledComponentProps } from "@material-ui/core/styles/withStyles";
 import React, { ChangeEvent, Component, FormEvent } from "react";
 import { ApiError } from "../utils/http";
-import { FormError } from "./FormError.component";
+import { FormError } from "./FormError";
 
 // todo how to test this?
 // validate renderConfirmPassword
