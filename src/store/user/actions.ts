@@ -1,77 +1,20 @@
-import { Action, Dispatch } from "redux";
+import { Dispatch } from "redux";
 import { ThunkHandler } from "../../types";
 import { ApiError, get, post } from "../../utils/http";
 import { setAuthToken } from "../../utils/user";
-import { UserInput } from "./types";
+import {
+  CreateAuthErrorAction,
+  CreateAuthSuccessAction,
+  CreateUserErrorAction,
+  CreateUserSuccessAction,
+  GetUserErrorAction,
+  GetUserSuccessAction,
+  User,
+  UserActionKeys,
+  UserInput,
+} from "./types";
 
-export interface User {
-  id: number;
-  email: string;
-}
-
-export enum UserActionKeys {
-  CREATE_USER_SUCCESS = "createUserSuccess",
-  CREATE_USER_ERROR = "createUserError",
-  CREATE_AUTH_SUCCESS = "createAuthSuccess",
-  CREATE_AUTH_ERROR = "createAuthError",
-  GET_USER_SUCCESS = "getUserSuccess",
-  GET_USER_ERROR = "getUserError",
-}
-
-// todo: generic / universal error handling via status code?
-// can put in redux folder with ThunkHandler, or http util to parse out
-
-export interface CreateUserSuccessAction extends Action {
-  readonly type: UserActionKeys.CREATE_USER_SUCCESS;
-  readonly payload: {
-    readonly user: User;
-  };
-}
-
-export interface CreateUserErrorAction extends Action {
-  readonly type: UserActionKeys.CREATE_USER_ERROR;
-  readonly payload: {
-    readonly error: ApiError;
-  };
-}
-
-export interface CreateAuthSuccessAction extends Action {
-  readonly type: UserActionKeys.CREATE_AUTH_SUCCESS;
-  readonly payload: {
-    readonly auth: string;
-  };
-}
-
-export interface CreateAuthErrorAction extends Action {
-  readonly type: UserActionKeys.CREATE_AUTH_ERROR;
-  readonly payload: {
-    readonly error: ApiError;
-  };
-}
-
-export interface GetUserSuccessAction extends Action {
-  readonly type: UserActionKeys.GET_USER_SUCCESS;
-  readonly payload: {
-    readonly user: User;
-  };
-}
-
-export interface GetUserErrorAction extends Action {
-  readonly type: UserActionKeys.GET_USER_ERROR;
-  readonly payload: {
-    readonly error: ApiError;
-  };
-}
-
-export type UserActions =
-  | CreateUserSuccessAction
-  | CreateUserErrorAction
-  | CreateAuthSuccessAction
-  | CreateAuthErrorAction
-  | GetUserSuccessAction
-  | GetUserErrorAction;
-
-export const createUser = (newUser: UserInput): ThunkHandler => {
+export const createUser = (newUser: UserInput) => {
   return async (dispatch: Dispatch<any>): Promise<void> => {
     try {
       const {
@@ -93,7 +36,7 @@ export const createUser = (newUser: UserInput): ThunkHandler => {
   };
 };
 
-export const authorizeUser = (user: UserInput): ThunkHandler => {
+export const authorizeUser = (user: UserInput) => {
   return async (dispatch: Dispatch<any>): Promise<void> => {
     try {
       const {
@@ -104,7 +47,6 @@ export const authorizeUser = (user: UserInput): ThunkHandler => {
       setAuthToken(token);
       dispatch(createAuthSuccess(token));
     } catch (e) {
-      console.log(e.response);
       const {
         response: {
           data: { error },
@@ -115,7 +57,7 @@ export const authorizeUser = (user: UserInput): ThunkHandler => {
   };
 };
 
-export const getMe = (): ThunkHandler => {
+export const getMe = () => {
   return async (dispatch: Dispatch<any>): Promise<void> => {
     try {
       const {

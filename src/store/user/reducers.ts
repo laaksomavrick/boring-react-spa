@@ -1,13 +1,6 @@
 import { Reducer } from "redux";
-import { ApiError } from "../../utils/http";
 import { getAuthToken } from "../../utils/user";
-import { User, UserActionKeys, UserActions } from "./actions";
-
-export interface UserState {
-  user?: User;
-  auth?: string;
-  error?: ApiError;
-}
+import { UserActionKeys, UserActions, UserState } from "./types";
 
 export const userReducer: Reducer<UserState, UserActions> = (
   state: UserState = {

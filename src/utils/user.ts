@@ -1,4 +1,4 @@
-import { User } from "../store/user/actions";
+import { User } from "../store/user/types";
 
 const TOKEN_KEY = "token";
 const USER_KEY = "user";

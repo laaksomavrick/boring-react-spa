@@ -1,13 +1,13 @@
-import React, { SFC } from "react";
-import { Alert } from "react-bootstrap";
+import { Typography } from "@material-ui/core";
+import React, { HTMLAttributes } from "react";
 import { ApiError, ApiErrorDetails } from "../utils/http";
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   error?: ApiError;
 }
 
-export const FormError: SFC<Props> = (props: Props): any => {
-  const { error } = props;
+export const FormError = (props: Props) => {
+  const { error, className } = props;
   if (error == null) {
     return null;
   }
@@ -15,9 +15,9 @@ export const FormError: SFC<Props> = (props: Props): any => {
   return (
     <>
       {errors.map((err: ApiErrorDetails, idx: number) => (
-        <Alert key={idx} bsStyle="danger">
+        <Typography key={idx} variant="subtitle1" color="error" className={className}>
           {err.msg}
-        </Alert>
+        </Typography>
       ))}
     </>
   );

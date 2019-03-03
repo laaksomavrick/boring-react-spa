@@ -81,7 +81,10 @@ class Login extends Component<Props, State> {
       password: this.state.password,
     };
     await authorizeUser(user);
-    history.push("/");
+    const { error } = this.props;
+    if (error == null) {
+      history.push("/");
+    }
   };
 }
 

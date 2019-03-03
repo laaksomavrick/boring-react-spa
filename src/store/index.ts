@@ -1,7 +1,15 @@
 import { connectRouter } from "connected-react-router";
 import { History } from "history";
 import { Action, AnyAction, combineReducers, Dispatch } from "redux";
-import { userReducer, UserState } from "./user/reducers";
+import { ApiError } from "../utils/http";
+import { userReducer } from "./user/reducers";
+import { UserState } from "./user/types";
+
+export interface ErrorAction {
+  readonly payload: {
+    readonly error: ApiError;
+  };
+}
 
 // tslint:disable-next-line
 export interface ApplicationState {

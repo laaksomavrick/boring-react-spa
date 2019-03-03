@@ -22,10 +22,16 @@ const styled = withStyles(theme => ({
   form: {
     display: "flex",
     flexDirection: "column",
-    marginTop: theme.spacing.unit,
+  },
+  formControl: {
+    marginTop: theme.spacing.unit * 2,
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
+  },
+  formError: {
+    margin: "auto",
+    marginTop: theme.spacing.unit * 2,
   },
 }));
 
@@ -41,8 +47,6 @@ interface Props extends StyledComponentProps {
   error?: ApiError;
 }
 
-// todo: extract FormGroup dupes into form input component /form
-// todo make this pretty :)
 class UserForm extends Component<Props, {}> {
   public constructor(props: Props) {
     super(props);
@@ -63,25 +67,25 @@ class UserForm extends Component<Props, {}> {
           {header}
         </Typography>
         <form onSubmit={onSubmit} className={classes.form}>
-          <FormControl>
+          <FormControl className={classes.formControl} required>
             <InputLabel>Email</InputLabel>
             <Input
               type="email"
               name="email"
               autoComplete="email"
-              value={email}
               placeholder="Enter a valid email address"
+              value={email}
               onChange={onChange}
             />
           </FormControl>
-          <FormControl>
+          <FormControl className={classes.formControl} required>
             <InputLabel>Password</InputLabel>
             <Input
               type="password"
               autoComplete="new-password"
+              placeholder="Enter your password"
               name="password"
               value={password}
-              placeholder="Enter your password"
               onChange={onChange}
             />
           </FormControl>
@@ -92,10 +96,11 @@ class UserForm extends Component<Props, {}> {
             variant="contained"
             color="primary"
             className={classes.submit}
+            disabled={this.buttonDisabled()}
           >
             Submit
           </Button>
-          <FormError error={error} />
+          <FormError className={classes.formError} error={error} />
         </form>
       </div>
     );
@@ -104,24 +109,36 @@ class UserForm extends Component<Props, {}> {
   private renderConfirmPassword() {
     const {
       onChange,
+      classes,
       state: { passwordConfirmation },
     } = this.props;
     if (passwordConfirmation == null) {
       return null;
     }
     return (
-      <FormControl>
+      <FormControl className={classes.formControl} required>
         <InputLabel>Confirm Password</InputLabel>
         <Input
           type="password"
           autoComplete="new-password"
           name="passwordConfirmation"
-          value={passwordConfirmation}
           placeholder="Confirm your password"
+          value={passwordConfirmation}
           onChange={onChange}
         />
       </FormControl>
     );
+  }
+
+  private buttonDisabled(): boolean {
+    const { email, password, passwordConfirmation } = this.props.state;
+    if (passwordConfirmation) {
+      return (
+        email.length === 0 || password.length === 0 || passwordConfirmation.length === 0
+      );
+    } else {
+      return email.length === 0 || password.length === 0;
+    }
   }
 }
 
