@@ -1,4 +1,4 @@
-import React, { Component, FormEvent } from "react";
+import React, { Component, FormEvent, ChangeEvent } from "react";
 import { FormControl } from "react-bootstrap";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
@@ -31,19 +31,19 @@ class Register extends Component<Props, State> {
     return (
       <div>
         <h1>Registration</h1>
-        <UserForm
+        {/* <UserForm
           onChange={this.onChange}
           onSubmit={this.onSubmit}
           state={this.state}
           error={error}
-        />
+        /> */}
       </div>
     );
   }
 
   private onChange = async ({
     currentTarget: { value = "", name = "" },
-  }: FormEvent<FormControl & HTMLInputElement>): Promise<void> => {
+  }: ChangeEvent<HTMLInputElement>): Promise<void> => {
     await this.setState({ ...this.state, [name]: value });
   };
 

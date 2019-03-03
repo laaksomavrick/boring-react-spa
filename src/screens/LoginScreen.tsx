@@ -1,17 +1,41 @@
-import React, { Component, FormEvent } from "react";
-import { FormControl } from "react-bootstrap";
+import { Paper } from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
+import React, { ChangeEvent, Component, FormEvent } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
-import { UserForm } from "../components/UserForm.component";
+import UserForm from "../components/UserForm.component";
 import { ApplicationState } from "../store";
 import { authorizeUser } from "../store/user/actions";
 import { UserInput } from "../store/user/types";
 import { ApiError } from "../utils/http";
 
+const styled = withStyles(theme => ({
+  container: {
+    width: "auto",
+    display: "block",
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 400,
+      marginLeft: "auto",
+      marginRight: "auto",
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing
+      .unit * 3}px`,
+  },
+}));
+
 interface Props extends RouteComponentProps<{}> {
   authorizeUser: (user: UserInput) => Promise<void>;
   error: ApiError | undefined;
+  classes: any;
 }
 
 interface State {
@@ -27,23 +51,25 @@ class Login extends Component<Props, State> {
   }
 
   public render() {
-    const { error } = this.props;
+    const { classes, error } = this.props;
     return (
-      <div>
-        <h1>Login</h1>
-        <UserForm
-          onChange={this.onChange}
-          onSubmit={this.onSubmit}
-          state={this.state}
-          error={error}
-        />
+      <div className={classes.container}>
+        <Paper className={classes.paper}>
+          <UserForm
+            onChange={this.onChange}
+            onSubmit={this.onSubmit}
+            state={this.state}
+            header="Login"
+            error={error}
+          />
+        </Paper>
       </div>
     );
   }
 
   private onChange = async ({
     currentTarget: { value = "", name = "" },
-  }: FormEvent<FormControl & HTMLInputElement>): Promise<void> => {
+  }: ChangeEvent<HTMLInputElement>): Promise<void> => {
     await this.setState({ ...this.state, [name]: value });
   };
 
@@ -73,9 +99,11 @@ const mapDispatchToProps = (dispatch: Dispatch<any>) => {
   };
 };
 
-export default withRouter(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-  )(Login),
+export default styled(
+  withRouter(
+    connect(
+      mapStateToProps,
+      mapDispatchToProps,
+    )(Login),
+  ),
 );
