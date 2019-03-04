@@ -22,6 +22,7 @@
     "no-any": false,
     "arrow-parens": false,
     "object-literal-sort-keys": false,
+    "object-literal-key-quotes": false,
     "no-unused-expression": true,
     "max-classes-per-file": [false],
     "variable-name": [false],

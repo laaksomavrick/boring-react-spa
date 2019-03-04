@@ -12,7 +12,7 @@ export interface User {
 }
 
 export interface UserState {
-  user?: User;
+  data?: User;
   auth?: string;
   error?: ApiError;
 }

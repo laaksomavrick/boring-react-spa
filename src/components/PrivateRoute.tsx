@@ -21,7 +21,7 @@ class PrivateRoute extends Route<Props> {
 
 const mapStateToProps = (state: ApplicationState): any => {
   return {
-    authorized: state.user.auth !== null,
+    authorized: state.user.auth != null,
   };
 };
 

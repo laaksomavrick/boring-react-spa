@@ -4,7 +4,7 @@ import { UserActionKeys, UserActions, UserState } from "./types";
 
 export const userReducer: Reducer<UserState, UserActions> = (
   state: UserState = {
-    user: undefined,
+    data: undefined,
     auth: getAuthToken(),
     error: undefined,
   },
@@ -14,7 +14,7 @@ export const userReducer: Reducer<UserState, UserActions> = (
     case UserActionKeys.CREATE_USER_SUCCESS:
       return {
         ...state,
-        user: action.payload.user,
+        data: action.payload.user,
       };
     case UserActionKeys.CREATE_USER_ERROR:
       return {
@@ -34,7 +34,7 @@ export const userReducer: Reducer<UserState, UserActions> = (
     case UserActionKeys.GET_USER_SUCCESS:
       return {
         ...state,
-        user: action.payload.user,
+        data: action.payload.user,
       };
     case UserActionKeys.GET_USER_ERROR:
       return {

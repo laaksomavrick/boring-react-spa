@@ -1,3 +1,4 @@
+import { CssBaseline } from "@material-ui/core";
 import { ConnectedRouter } from "connected-react-router";
 import { History } from "history";
 import React, { Component } from "react";
@@ -29,6 +30,7 @@ class Main extends Component<AllProps> {
 
     return (
       <Provider store={store}>
+        <CssBaseline />
         <ConnectedRouter history={history}>
           {/* <ThemeProvider theme={themes[theme]}> */}
           <Routes />

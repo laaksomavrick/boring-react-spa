@@ -1,17 +1,16 @@
 import * as React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import PrivateRoute from "./components/PrivateRoute";
+import HomeScreen from "./screens/HomeScreen";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
-// import { ConnectedHome } from "../../home";
-// import { ConnectedLogin, ConnectedRegister } from "../../user";
-// import { ConnectedPrivateRoute } from "./privateRoute.component";
 
 const Routes: React.SFC = () => (
   <Router>
     <Switch>
       <Route path="/register" component={RegisterScreen} />
       <Route path="/login" component={LoginScreen} />
-      {/* <ConnectedPrivateRoute component={ConnectedHome} /> */}
+      <PrivateRoute component={HomeScreen} />
     </Switch>
   </Router>
 );

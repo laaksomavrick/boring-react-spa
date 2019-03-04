@@ -1,5 +1,4 @@
 import { Dispatch } from "redux";
-import { ThunkHandler } from "../../types";
 import { ApiError, get, post } from "../../utils/http";
 import { setAuthToken } from "../../utils/user";
 import {

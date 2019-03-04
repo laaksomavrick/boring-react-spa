@@ -57,6 +57,9 @@ class Login extends Component<Props, State> {
     await authorizeUser(user);
     const { error } = this.props;
     if (error == null) {
+      // todo: need to push to folders/:folderId when start up is done
+      // home can handle the redirect post startUp
+      // loading mask
       history.push("/");
     }
   };

@@ -2,6 +2,10 @@ import { connectRouter } from "connected-react-router";
 import { History } from "history";
 import { Action, AnyAction, combineReducers, Dispatch } from "redux";
 import { ApiError } from "../utils/http";
+import { foldersReducer } from "./folders/reducers";
+import { FoldersState } from "./folders/types";
+import { uiReducer } from "./ui/reducers";
+import { UiState } from "./ui/types";
 import { userReducer } from "./user/reducers";
 import { UserState } from "./user/types";
 
@@ -14,7 +18,8 @@ export interface ErrorAction {
 // tslint:disable-next-line
 export interface ApplicationState {
   user: UserState;
-  // folders: FoldersState;
+  folders: FoldersState;
+  ui: UiState;
   // notes: NotesState;
 }
 
@@ -26,6 +31,7 @@ export const rootReducer = (history: History) =>
   combineReducers({
     router: connectRouter(history),
     user: userReducer,
-    //   foldersState: foldersReducer,
+    folders: foldersReducer,
+    ui: uiReducer,
     //   notesState: notesReducer,
   });
