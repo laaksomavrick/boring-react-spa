@@ -4,6 +4,7 @@ import { UiActionKeys, UiActions, UiState } from "./types";
 export const uiReducer: Reducer<UiState, UiActions> = (
   state: UiState = {
     appLoading: true,
+    selectedFolderModalOpen: false,
   },
   action: UiActions,
 ): UiState => {
@@ -12,6 +13,11 @@ export const uiReducer: Reducer<UiState, UiActions> = (
       return {
         ...state,
         appLoading: action.payload.loading,
+      };
+    case UiActionKeys.SET_SELECTED_FOLDER_MODAL_OPEN:
+      return {
+        ...state,
+        selectedFolderModalOpen: action.payload.open,
       };
     default:
       return state;

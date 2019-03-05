@@ -108,14 +108,6 @@ const mapStateToProps = (state: ApplicationState): any => {
   };
 };
 
-// const mapDispatchToProps = (dispatch: Dispatch<any>): object => {
-//   return {
-//     startUp: async (user: User) => dispatch(startUp(user)),
-//     getMe: async () => dispatch(getMe()),
-//     setSelectedFolder: (folder: Folder) => dispatch(setSelectedFolder(folder)),
-//   };
-// };
-
 export default connect(
   mapStateToProps,
   null,

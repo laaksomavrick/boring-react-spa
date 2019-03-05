@@ -5,7 +5,6 @@ import {
   FolderActionKeys,
   GetFolderErrorAction,
   GetFolderSuccessAction,
-  SetSelectedFolderAction,
 } from "./types";
 
 export const getFolders = (userId: number) => {
@@ -25,13 +24,6 @@ export const getFolders = (userId: number) => {
       } = e;
       dispatch(getFoldersError(error));
     }
-  };
-};
-
-export const setSelectedFolder = (folder: Folder): SetSelectedFolderAction => {
-  return {
-    type: FolderActionKeys.SET_SELECTED_FOLDER,
-    payload: { folder },
   };
 };
 

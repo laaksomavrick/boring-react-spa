@@ -35,7 +35,8 @@
     "no-console": false,
     "no-shadowed-variable": false,
     "typedef": false,
-    "no-unnecessary-semicolons": false
+    "no-unnecessary-semicolons": false,
+    "triple-equals": false
   },
   "rulesDirectory": []
 }

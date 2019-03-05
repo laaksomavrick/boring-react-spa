@@ -5,9 +5,9 @@ import { Route, RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import AppDrawer from "../components/AppDrawer";
 import AppTopBar from "../components/AppTopBar";
+import SelectedFolderModal from "../components/SelectedFolderModal";
 import { ApplicationState } from "../store";
 import { startUp } from "../store/actions";
-import { setSelectedFolder } from "../store/folders/actions";
 import { Folder } from "../store/folders/types";
 import { setAppLoading } from "../store/ui/actions";
 import { getMe } from "../store/user/actions";
@@ -19,13 +19,12 @@ const styled = withStyles(theme => ({
   },
 }));
 
-interface Props extends RouteComponentProps<{}> {
+interface Props extends RouteComponentProps<{ folderId: string }> {
   user: User;
   folders: Folder[];
   appLoading: boolean;
   startUp: (user: User) => Promise<void>;
   getMe: () => Promise<void>;
-  setSelectedFolder: (folder: Folder) => void;
   setAppLoading: (loading: boolean) => void;
   classes: any;
 }
@@ -38,15 +37,26 @@ class HomeScreen extends Component<Props, {}> {
   }
 
   public async componentWillMount() {
-    const { startUp, getMe, setSelectedFolder, setAppLoading, history } = this.props;
+    const {
+      startUp,
+      getMe,
+      setAppLoading,
+      match: { params },
+      history,
+    } = this.props;
     await getMe();
     const { user } = this.props;
     await startUp(user);
     const { folders } = this.props;
-    const params: any = this.props.match.params;
     // todo:
-    // either separate appDrawer's route related data vs non route related data into appropriate <Route> components
-    // or determine way to always set it
+    // user must always have one folder for this to work
+    //   -> on user create, create folder
+    //   -> server side, user cannot delete folder if it's the last one
+
+    if (params.folderId == null && folders) {
+      history.replace(`/folders/${folders[0].id}`);
+    }
+
     setAppLoading(false);
   }
 
@@ -62,6 +72,7 @@ class HomeScreen extends Component<Props, {}> {
       <div className={classes.root}>
         <AppTopBar />
         <Route path="/folders/:folderId" component={AppDrawer} />
+        <SelectedFolderModal />
       </div>
     );
   }
@@ -79,7 +90,6 @@ const mapDispatchToProps = (dispatch: Dispatch<any>): object => {
   return {
     startUp: async (user: User) => dispatch(startUp(user)),
     getMe: async () => dispatch(getMe()),
-    setSelectedFolder: (folder: Folder) => dispatch(setSelectedFolder(folder)),
     setAppLoading: (loading: boolean) => dispatch(setAppLoading(loading)),
   };
 };

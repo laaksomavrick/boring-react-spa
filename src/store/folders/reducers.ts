@@ -19,11 +19,6 @@ export const foldersReducer = (
         ...state,
         error: action.payload.error,
       };
-    case FolderActionKeys.SET_SELECTED_FOLDER:
-      return {
-        ...state,
-        selected: action.payload.folder,
-      };
     default:
       return state;
   }

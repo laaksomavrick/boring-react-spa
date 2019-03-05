@@ -23,10 +23,7 @@ export enum FolderActionKeys {
   SET_SELECTED_FOLDER = "setSelectedFolder",
 }
 
-export type FolderActions =
-  | GetFolderSuccessAction
-  | GetFolderErrorAction
-  | SetSelectedFolderAction;
+export type FolderActions = GetFolderSuccessAction | GetFolderErrorAction;
 
 export interface GetFolderSuccessAction {
   readonly type: FolderActionKeys.GET_FOLDERS_SUCCESS;
@@ -37,11 +34,4 @@ export interface GetFolderSuccessAction {
 
 export interface GetFolderErrorAction extends ErrorAction {
   readonly type: FolderActionKeys.GET_FOLDERS_ERROR;
-}
-
-export interface SetSelectedFolderAction {
-  readonly type: FolderActionKeys.SET_SELECTED_FOLDER;
-  readonly payload: {
-    readonly folder: Folder;
-  };
 }

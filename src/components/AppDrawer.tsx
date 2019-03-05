@@ -5,9 +5,9 @@ import { connect } from "react-redux";
 import { RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import { ApplicationState } from "../store";
-import { setSelectedFolder } from "../store/folders/actions";
 import { Folder } from "../store/folders/types";
 import { Note } from "../store/notes/types";
+import { setSelectedFolderModalOpen } from "../store/ui/actions";
 
 const drawerWidth = 240;
 
@@ -40,7 +40,7 @@ interface Props extends RouteComponentProps<{}> {
   notes?: Note[];
   selectedFolder?: Folder;
   folders?: Folder[];
-  setSelectedFolder: (folder: Folder) => void;
+  setSelectedFolderModalOpen: (open: boolean) => void;
 }
 
 class AppDrawer extends Component<Props, {}> {
@@ -48,30 +48,8 @@ class AppDrawer extends Component<Props, {}> {
     super(props);
   }
 
-  public componentWillMount() {
-    const {
-      match: { params },
-      folders,
-      setSelectedFolder,
-      history,
-    } = this.props;
-    const folderId = (params as any).folderId;
-    // tslint:disable-next-line
-    const folder = folders.find((f: Folder) => f.id == folderId);
-    console.log("here");
-    console.log(folderId);
-    console.log(folder);
-    if (folder) {
-      setSelectedFolder(folder);
-    } else if (folders) {
-      history.push(`/folders/${folders[0].id}`);
-    } else {
-      history.push("/");
-    }
-  }
-
   public render() {
-    const { classes, notes, selectedFolder } = this.props;
+    const { classes, notes, selectedFolder, setSelectedFolderModalOpen } = this.props;
     return (
       <Drawer
         className={classes.drawer}
@@ -82,7 +60,12 @@ class AppDrawer extends Component<Props, {}> {
         anchor="left"
       >
         <div className={classes.toolbar}>
-          <Button className={classes.button} color="primary" size="large">
+          <Button
+            className={classes.button}
+            color="primary"
+            size="large"
+            onClick={() => setSelectedFolderModalOpen(true)}
+          >
             {selectedFolder && selectedFolder.name}
           </Button>
         </div>
@@ -99,9 +82,9 @@ class AppDrawer extends Component<Props, {}> {
   }
 }
 
-const mapStateToProps = (state: ApplicationState): any => {
+const mapStateToProps = (state: ApplicationState, { match: { params } }): any => {
   const folders = state.folders.data;
-  const selectedFolder = state.folders.selected;
+  const selectedFolder = folders.find(f => f.id == params.folderId);
   const notes = selectedFolder ? selectedFolder.notes : [];
   return {
     notes,
@@ -112,7 +95,8 @@ const mapStateToProps = (state: ApplicationState): any => {
 
 const mapDispatchToProps = (dispatch: Dispatch): object => {
   return {
-    setSelectedFolder: (folder: Folder) => dispatch(setSelectedFolder(folder)),
+    setSelectedFolderModalOpen: (open: boolean) =>
+      dispatch(setSelectedFolderModalOpen(open)),
   };
 };
 
