@@ -5,6 +5,7 @@ import { Route, RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import AppDrawer from "../components/AppDrawer";
 import AppTopBar from "../components/AppTopBar";
+import NoteEditor from "../components/NoteEditor";
 import SelectedFolderModal from "../components/SelectedFolderModal";
 import { ApplicationState } from "../store";
 import { startUp } from "../store/actions";
@@ -52,9 +53,10 @@ class HomeScreen extends Component<Props, {}> {
     // user must always have one folder for this to work
     //   -> on user create, create folder
     //   -> server side, user cannot delete folder if it's the last one
-
     if (params.folderId == null && folders) {
-      history.replace(`/folders/${folders[0].id}`);
+      const { id, notes } = folders[0];
+      const note = notes[0];
+      history.replace(`/folders/${id}/notes/${note.id}`);
     }
 
     setAppLoading(false);
@@ -72,6 +74,7 @@ class HomeScreen extends Component<Props, {}> {
       <div className={classes.root}>
         <AppTopBar />
         <Route path="/folders/:folderId" component={AppDrawer} />
+        <Route path="/folders/:folderId/notes/:noteId" component={NoteEditor} />
         <SelectedFolderModal />
       </div>
     );

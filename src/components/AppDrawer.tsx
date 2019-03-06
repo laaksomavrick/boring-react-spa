@@ -1,4 +1,4 @@
-import { Button, Divider, Drawer, List, ListItem, ListItemText } from "@material-ui/core";
+import { Button, Divider, Drawer, List } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
 import React, { Component } from "react";
 import { connect } from "react-redux";
@@ -8,8 +8,9 @@ import { ApplicationState } from "../store";
 import { Folder } from "../store/folders/types";
 import { Note } from "../store/notes/types";
 import { setSelectedFolderModalOpen } from "../store/ui/actions";
+import ListItemLink from "./ListItemLink";
 
-const drawerWidth = 240;
+export const drawerWidth = 240;
 
 const styled = withStyles(theme => ({
   root: {
@@ -28,11 +29,6 @@ const styled = withStyles(theme => ({
   },
   toolbar: { ...theme.mixins.toolbar, display: "flex" },
   button: { flex: "1" },
-  content: {
-    flexGrow: 1,
-    backgroundColor: theme.palette.background.default,
-    padding: theme.spacing.unit * 3,
-  },
 }));
 
 interface Props extends RouteComponentProps<{}> {
@@ -71,10 +67,8 @@ class AppDrawer extends Component<Props, {}> {
         </div>
         <Divider />
         <List>
-          {notes.map(({ id, name }: Note) => (
-            <ListItem button key={id}>
-              <ListItemText primary={name} />
-            </ListItem>
+          {notes.map(({ id, name, folderId }: Note) => (
+            <ListItemLink key={id} to={`/folders/${folderId}/notes/${id}`} text={name} />
           ))}
         </List>
       </Drawer>

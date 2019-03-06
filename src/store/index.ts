@@ -4,6 +4,8 @@ import { Action, AnyAction, combineReducers, Dispatch } from "redux";
 import { ApiError } from "../utils/http";
 import { foldersReducer } from "./folders/reducers";
 import { FoldersState } from "./folders/types";
+import { notesReducer } from "./notes/reducers";
+import { NotesState } from "./notes/types";
 import { uiReducer } from "./ui/reducers";
 import { UiState } from "./ui/types";
 import { userReducer } from "./user/reducers";
@@ -15,12 +17,11 @@ export interface ErrorAction {
   };
 }
 
-// tslint:disable-next-line
 export interface ApplicationState {
   user: UserState;
   folders: FoldersState;
   ui: UiState;
-  // notes: NotesState;
+  notes: NotesState;
 }
 
 export interface ConnectedReduxProps<A extends Action = AnyAction> {
@@ -33,5 +34,5 @@ export const rootReducer = (history: History) =>
     user: userReducer,
     folders: foldersReducer,
     ui: uiReducer,
-    //   notesState: notesReducer,
+    notes: notesReducer,
   });
