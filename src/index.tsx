@@ -1,3 +1,5 @@
+import "codemirror/lib/codemirror.css";
+import "codemirror/mode/markdown/markdown";
 import { createBrowserHistory } from "history";
 import React from "react";
 import ReactDOM from "react-dom";
