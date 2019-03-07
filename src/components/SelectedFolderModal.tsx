@@ -41,8 +41,8 @@ class SelectedFolderModal extends Component<Props, {}> {
 
   handleListItemClick = (folder: Folder) => {
     const { history } = this.props;
-    const { id } = folder;
-    history.push(`/folders/${id}`);
+    const { id, notes } = folder;
+    history.push(`/folders/${id}/notes/${notes[0].id}`);
     this.handleClose();
   };
 
