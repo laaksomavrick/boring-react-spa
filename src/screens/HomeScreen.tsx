@@ -1,7 +1,7 @@
 import { withStyles } from "@material-ui/core";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { Route, RouteComponentProps, withRouter } from "react-router";
+import { matchPath, Route, RouteComponentProps, withRouter } from "react-router";
 import { Dispatch } from "redux";
 import AppDrawer from "../components/AppDrawer";
 import AppTopBar from "../components/AppTopBar";
@@ -20,7 +20,7 @@ const styled = withStyles(theme => ({
   },
 }));
 
-interface Props extends RouteComponentProps<{ folderId: string }> {
+interface Props extends RouteComponentProps<{ folderId: any; noteId: any }> {
   user: User;
   folders: Folder[];
   appLoading: boolean;
@@ -31,20 +31,12 @@ interface Props extends RouteComponentProps<{ folderId: string }> {
 }
 
 class HomeScreen extends Component<Props, {}> {
-  public state = {};
-
   public constructor(props: Props) {
     super(props);
   }
 
   public async componentWillMount() {
-    const {
-      startUp,
-      getMe,
-      setAppLoading,
-      match: { params },
-      history,
-    } = this.props;
+    const { startUp, getMe, setAppLoading, history } = this.props;
     await getMe();
     const { user } = this.props;
     await startUp(user);
@@ -53,7 +45,14 @@ class HomeScreen extends Component<Props, {}> {
     // user must always have one folder for this to work
     //   -> on user create, create folder
     //   -> server side, user cannot delete folder if it's the last one
-    if (params.folderId == null && folders) {
+
+    const { params } = matchPath(this.props.history.location.pathname, {
+      path: "/folders/:folderId/notes/:noteId",
+      exact: true,
+      strict: false,
+    });
+
+    if ((params.folderId == null || params.noteId == null) && folders) {
       const { id, notes } = folders[0];
       const note = notes[0];
       history.replace(`/folders/${id}/notes/${note.id}`);

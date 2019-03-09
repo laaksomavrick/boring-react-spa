@@ -16,11 +16,17 @@ export interface NotesState {
   error?: ApiError;
 }
 
-export type NoteActions = GetNotesSuccessAction | GetNotesErrorAction;
+export type NoteActions =
+  | GetNotesSuccessAction
+  | GetNotesErrorAction
+  | UpdateNoteSuccessAction
+  | UpdateNoteErrorAction;
 
 export enum NoteActionKeys {
   GET_NOTES_SUCCESS = "getNotesSuccess",
   GET_NOTES_ERROR = "getNotesError",
+  UPDATE_NOTE_SUCCESS = "updateNoteSuccess",
+  UPDATE_NOTE_ERROR = "updateNoteError",
 }
 
 export interface GetNotesSuccessAction {
@@ -32,4 +38,15 @@ export interface GetNotesSuccessAction {
 
 export interface GetNotesErrorAction extends ErrorAction {
   readonly type: NoteActionKeys.GET_NOTES_ERROR;
+}
+
+export interface UpdateNoteSuccessAction {
+  readonly type: NoteActionKeys.UPDATE_NOTE_SUCCESS;
+  readonly payload: {
+    readonly note: Note;
+  };
+}
+
+export interface UpdateNoteErrorAction extends ErrorAction {
+  readonly type: NoteActionKeys.UPDATE_NOTE_ERROR;
 }
